@@ -35,3 +35,9 @@ export * from './Toast';
 // Data Display
 export * from './List';
 export * from './Collapsible';
+
+// Buttons
+export * from './FAB';
+
+// Input
+export * from './Slider';

@@ -46,6 +46,10 @@ import {
   CollapsibleHeader,
   CollapsibleContent,
   Accordion,
+  FAB,
+  FABGroup,
+  Slider,
+  RangeSlider,
 } from './src/components/ui';
 
 function AppContent() {
@@ -61,6 +65,10 @@ function AppContent() {
   // State for new components
   const [modalVisible, setModalVisible] = useState(false);
   const [dialogVisible, setDialogVisible] = useState(false);
+  const [sliderValue, setSliderValue] = useState(50);
+  const [rangeLow, setRangeLow] = useState(25);
+  const [rangeHigh, setRangeHigh] = useState(75);
+  const [fabGroupOpen, setFabGroupOpen] = useState(false);
 
   return (
     <SafeAreaProvider>
@@ -397,6 +405,55 @@ function AppContent() {
                 </CardContent>
               </Card>
 
+              {/* Slider Section */}
+              <Card variant="elevated">
+                <CardHeader>
+                  <Text variant="h2" weight="bold">Sliders</Text>
+                </CardHeader>
+                <CardContent>
+                  <Stack spacing="lg">
+                    <View>
+                      <Text variant="body" weight="semibold" className="mb-2">Single Value Slider</Text>
+                      <Slider
+                        value={sliderValue}
+                        minimumValue={0}
+                        maximumValue={100}
+                        step={1}
+                        onValueChange={setSliderValue}
+                        showValue
+                      />
+                    </View>
+
+                    <View>
+                      <Text variant="body" weight="semibold" className="mb-2">Range Slider</Text>
+                      <RangeSlider
+                        lowValue={rangeLow}
+                        highValue={rangeHigh}
+                        minimumValue={0}
+                        maximumValue={100}
+                        step={5}
+                        onValueChange={(low, high) => {
+                          setRangeLow(low);
+                          setRangeHigh(high);
+                        }}
+                        showValues
+                      />
+                    </View>
+
+                    <View>
+                      <Text variant="body" weight="semibold" className="mb-2">Custom Colors</Text>
+                      <Slider
+                        value={75}
+                        minimumValue={0}
+                        maximumValue={100}
+                        minimumTrackTintColor="bg-success"
+                        thumbSize={24}
+                      />
+                    </View>
+                  </Stack>
+                </CardContent>
+              </Card>
+
               {/* Final Card */}
               <Card variant="outline">
                 <CardContent>
@@ -406,7 +463,7 @@ function AppContent() {
                 </CardContent>
                 <CardFooter>
                   <Text variant="caption" align="center" color="muted">
-                    Modal, Dialog, Toast, List, and Collapsible added!
+                    FAB, Slider, Modal, Dialog, Toast, List, and Collapsible added!
                   </Text>
                 </CardFooter>
               </Card>
@@ -414,6 +471,40 @@ function AppContent() {
             </Stack>
           </Container>
         </ScrollView>
+
+        {/* Floating Action Buttons */}
+        <FAB
+          icon={<Text className="text-white text-xl">+</Text>}
+          position="bottom-right"
+          variant="primary"
+          size="lg"
+          onPress={() => toast.info('FAB pressed!')}
+        />
+
+        <FABGroup
+          icon={<Text className="text-white text-xl">⋮</Text>}
+          position="bottom-left"
+          variant="primary"
+          visible={fabGroupOpen}
+          onPress={() => setFabGroupOpen(!fabGroupOpen)}
+          actions={[
+            {
+              icon: <Text className="text-xl">📷</Text>,
+              label: 'Camera',
+              onPress: () => toast.info('Camera action'),
+            },
+            {
+              icon: <Text className="text-xl">🖼️</Text>,
+              label: 'Gallery',
+              onPress: () => toast.info('Gallery action'),
+            },
+            {
+              icon: <Text className="text-xl">📁</Text>,
+              label: 'Files',
+              onPress: () => toast.info('Files action'),
+            },
+          ]}
+        />
 
         {/* Modals */}
         <Modal
